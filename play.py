@@ -1,15 +1,23 @@
-import urllib.request, json
+import urllib.request, json, argparse
 
-# location data from our user
-user_latitude = '37.4419'
-user_longitude = '-122.1419'
-radius = '1'
+# get user position from command line
+# play.py --lon 10.3 --lat 56.3 --distance 10
+parser = argparse.ArgumentParser(description='Process some integers.')
+parser.add_argument('--lat',default='37.4419', dest='lat', help='lat of position')
+parser.add_argument('--lon',default='-122.1419', dest='lon', help='lon of position')
+parser.add_argument('--distance',default='50', dest='distance', help='radius to search in km')
 
-area = 
+args = parser.parse_args()
 
-for poi in area:
-    # points of interest by amadeus api
-    amadeus_api_key = 'mqGD234kuOSO7Wyz7EDADu8v1t3ajYFB'
+user_latitude = args.lat
+user_longitude = args.lon
+radius = args.distance
+
+# points of interest by amadeus api
+amadeus_api_key = 'mqGD234kuOSO7Wyz7EDADu8v1t3ajYFB'
+
+
+def getGeodata(user_longitude,user_latitude,radius):
 
     with urllib.request.urlopen(
     	'https://api.sandbox.amadeus.com/v1.2/points-of-interest/yapq-search-circle?latitude=' 
@@ -18,14 +26,16 @@ for poi in area:
     	) as url:
         data = json.loads(url.read().decode())
 
-        poi_longitude = data['points_of_interest'][poi]['location']['longitude']
-        poi_latitude = data['points_of_interest'][poi]['location']['latitude']
+    return data['points_of_interest']
 
+
+
+def getWeatherDataForOneLocation(poi_latitude,poi_longitude):     
     # weather data for the poi
     openweathermap_api_key = '3a1deb09f4243599aab7a97c86dd6749'
 
     weather_value_list = []
-
+    
     with urllib.request.urlopen("http://api.openweathermap.org/data/2.5/forecast?lat=" + 
         str(poi_latitude) + '&lon=' + str(poi_longitude) + '&appid=' + str(openweathermap_api_key)
     	) as url:
@@ -46,12 +56,29 @@ for poi in area:
             else:
                 weather_value = weather_value - 50
             
+            # weather points for one location, every point is 3h
             weather_value_list.append(weather_value)
 
     # print(weather_value_list)
     weather_value_average = round(sum(weather_value_list) / float(len(weather_value_list)))
+    return weather_value_average
 
-        # print(data['list'][i]['weather'][0]['description'])
+
+def getWeatherData(geodata):
+  
+    #data_with_weather_list = []
+    for oneGeodate in geodata:
+        oneGeodate['weather_average']=getWeatherDataForOneLocation(oneGeodate['location']['latitude'],oneGeodate['location']['longitude'])
+
+    return geodata
+
+
+geodata = getGeodata(user_longitude,user_latitude,radius)
+geodata = getWeatherData(geodata)
+print(geodata)
+
+
+# print(data['list'][i]['weather'][0]['description'])
 
 poi_with_good_weather = {}
 poi_with_good_weather['key'] = round(weather_value_average,2)
