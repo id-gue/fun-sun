@@ -68,20 +68,39 @@ def getWeatherData(geodata):
   
     #data_with_weather_list = []
     for oneGeodate in geodata:
-        oneGeodate['weather_average']=getWeatherDataForOneLocation(oneGeodate['location']['latitude'],oneGeodate['location']['longitude'])
+        oneGeodate['weather_average']=getWeatherDataForOneLocation(
+            oneGeodate['location']['latitude'],oneGeodate['location']['longitude']
+            )
 
     return geodata
 
 
+
+
+def filterData(unfiltered_geodata):
+    filtered_geodata = sorted(unfiltered_geodata[weather_average], reverse=True)[:5]
+
+    return(filtered_geodata)
+
+
+unfiltered_geodata = getGeodata(user_longitude,user_latitude,radius)
+unfiltered_geodata = getWeatherData(unfiltered_geodata)
+filtered_geodata = filterData(unfiltered_geodata)
+
+print(filtered_geodata)
+
+
+
+"""
 geodata = getGeodata(user_longitude,user_latitude,radius)
 geodata = getWeatherData(geodata)
 print(geodata)
 
-
-# print(data['list'][i]['weather'][0]['description'])
 
 poi_with_good_weather = {}
 poi_with_good_weather['key'] = round(weather_value_average,2)
 json_data = json.dumps(poi_with_good_weather)
 
 print(poi_with_good_weather)
+
+"""
