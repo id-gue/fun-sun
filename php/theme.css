@@ -1,0 +1,14 @@
+body {
+margin: 20px;
+}
+
+h1
+{
+    color:blue;
+}
+
+.searchbutton{
+    margin:20px;
+    padding:10px;
+    background-color: antiquewhite;
+}
