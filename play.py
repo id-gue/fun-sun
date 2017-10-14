@@ -14,7 +14,7 @@ user_longitude = args.lon
 radius = args.distance
 
 # points of interest by amadeus api
-amadeus_api_key = 'mqGD234kuOSO7Wyz7EDADu8v1t3ajYFB'
+amadeus_api_key = 'M3GYwKZeUTNSFqhAK6Oojp3PO89080iF'
 
 
 def getGeodata(user_longitude,user_latitude,radius):
