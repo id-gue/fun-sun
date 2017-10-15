@@ -83,22 +83,21 @@ def filterGeodata(unfiltered_geodata):
 
     list = unfiltered_geodata
 
-    average = 0
+    total = 0
     count = 0
 
     # calculate average weather of all POIs
     for i in list:
-        average = average + (int(i['weather_average']))
+        total = total + (int(i['weather_average']))
         count += 1
-
-    all_weather_values = (average / count)
-
+    all_weather_values = (total / count)
+    print(all_weather_values)
     filtered_geodata = []
 
     # add POIs with weather better than average to filtered_geodata
     for poi in list:
-        if poi['weather_average'] > all_weather_values:
-            filtered_geodata.append(i)
+        if poi['weather_average'] < all_weather_values:
+            filtered_geodata.append(poi)
 
     print(json.dumps(filtered_geodata))
 
