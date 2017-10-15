@@ -19,7 +19,7 @@ require_once 'Poi.php';
 define('PYTHON_API', "/usr/bin/python3 /var/www/funsun/play.py --lat {lat} --lon {lon} --distance {distance}");
 
 //call API or just load a json file?
-define('DO_REAL',false);
+define('DO_REAL',true);
 
 //for debugging purposes:
 error_reporting(E_ALL);
