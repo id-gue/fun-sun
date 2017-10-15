@@ -16,7 +16,7 @@
 
     function init() {
         mymap = L.map('mapid');
-        mymap.setView(new L.LatLng(51.505, 10.09), 13);
+        mymap.setView(new L.LatLng(51.505, 10.09), 11);
 
         L.tileLayer('http://a.tile.osm.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -31,8 +31,13 @@
         document.getElementById("lat").value=location.lat;
         document.getElementById("lon").value=location.lng;
 
-        L.marker(location).addTo(mymap);
         L.circle(location, radius).addTo(mymap);
+        var circle = L.circle(location, {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.5,
+            radius: radius*2
+        }).addTo(mymap);
 
         {markers}
     }
@@ -69,7 +74,7 @@
 
 </form>
 
-<div id="mapid" style="height: 500px; width:100%; margin-top: 10px"></div>
+<div id="mapid" style="height: 700px; width:100%; margin-top: 10px"></div>
 
 </div>
 </body>
