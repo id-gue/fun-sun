@@ -76,67 +76,30 @@ def getWeatherData(geodata):
 unfiltered_geodata = getGeodata(user_longitude,user_latitude,radius)
 unfiltered_geodata = getWeatherData(unfiltered_geodata)
 
-# filtering all objects for good weather_average
-# def filterData(unfiltered_geodata):
+all_weather_values = 0
 
-# sort geo data
-def sortGeodata(unfiltered_geodata): 
+# give back the pois with good weather
+def filterGeodata(unfiltered_geodata): 
 
-    all_weather_values = []
     list = unfiltered_geodata
 
     average = 0
     count = 0
 
+    # calculate average weather of all POIs
     for i in list:
-        #all_weather_values.append(int(i))
         average = average + (int(i['weather_average']))
         count += 1
 
-    print(average / count)
-
-
-sortGeodata(unfiltered_geodata)
-
-"""
-    # calculate weather average
-    weather_value_average = round(sum(weather_value_list) / float(len(weather_value_list)))
-
-
-
+    all_weather_values = (average / count)
 
     filtered_geodata = []
 
-    for obj in unfiltered_geodata:
-        
+    # add POIs with weather better than average to filtered_geodata
+    for poi in list:
+        if poi['weather_average'] > all_weather_values:
+            filtered_geodata.append(i)
 
-        # give back POIs where weather is better than average
+    print(json.dumps(filtered_geodata))
 
-
-    all_weather_average = unfiltered_geodata['weather_average'] 
-
-    filtered_geodata = [unfiltered_geodata for unfiltered_geodata in dict if(
-    unfiltered_geodata['type'] > -10
-    )] 
-
-    # filtered_geodata = sorted(unfiltered_geodata, reverse=True)[:5]
-    # return filtered_geodata
-"""
-
-# print(json.dumps(filtered_geodata))
-
-
-
-"""
-geodata = getGeodata(user_longitude,user_latitude,radius)
-geodata = getWeatherData(geodata)
-print(geodata)
-
-
-poi_with_good_weather = {}
-poi_with_good_weather['key'] = round(weather_value_average,2)
-json_data = json.dumps(poi_with_good_weather)
-
-print(poi_with_good_weather)
-
-"""
+filterGeodata(unfiltered_geodata)
