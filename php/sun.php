@@ -1,18 +1,34 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: janss
+ * User: Inna Janssen
  * Date: 14.10.2017
  * Time: 17:45
+ *
+ * This is just a very hacky demonstration of how we can use some APIs and show
+ * them in a map.
+ * This is a demo for the hackathon 2017 in Berlin.
+ *
+ * The API-Calls are happening in a python-script, so we call the python script
+ * via php-exec :-)
+ * TODOs: put everything into classes and so on...
  */
 require_once 'Poi.php';
-//>test.json 2>&1
+
+//these paths have to be configured!
 define('PYTHON_API', "/usr/bin/python3 /var/www/funsun/play.py --lat {lat} --lon {lon} --distance {distance}");
+
+//for debugging purposes:
 error_reporting(E_ALL);
 ini_set('display_errors', true);
+
+//this is the most simpliest Template-Engine
 $file = file_get_contents('template.html');
 
 $formattedResults = "";
+$javaScriptMarkers="";
+
+//do the api-CALLS when the User presses a Button
 if (count($_POST) > 0) {
     //var_dump($_POST);
     $lat = $_POST['lat'];
@@ -27,12 +43,13 @@ if (count($_POST) > 0) {
     $toPython = str_replace('{lat}', $lat, $toPython);
     $toPython = str_replace('{lon}', $lon, $toPython);
     $toPython = str_replace('{distance}', $distance, $toPython);
-/*
-    echo "<br>".$toPython . "<br>";
-    $result = exec($toPython, $returnState);
-  */
+
+
+    //echo "<br>".$toPython . "<br>";
+    //$result = exec($toPython, $returnState);
+
     //temporary
-    $result = file_get_contents("/var/www/funsun/output.json");
+    $result = file_get_contents("/var/www/funsun/locmuseum200.json");
 
     if (isset($result)) {
         $json = json_decode($result, true);
@@ -42,6 +59,7 @@ if (count($_POST) > 0) {
     $pois = array();
 
     //Put JSON into Object
+    $i=0;
     foreach ($json as $res) {
         //echo "<hr>";
         //print_r($res);
@@ -49,13 +67,17 @@ if (count($_POST) > 0) {
         $poi->title = $res['title'];
         $poi->lat = $res['location']['latitude'];
         $poi->lon = $res['location']['longitude'];
+        $poi->photoUrl=$res['main_image'];
         $pois[] = $poi;
+        $i++;
+        if ($i>10) break;
     }
 
     //create a nice list
-    $formattedResults = "<ul>";
+    $formattedResults = "<h2>Found:</h2><ul>";
     foreach ($pois as $poi) {
-        $formattedResults .= "<li>" . $poi->title . "</li>";
+        $formattedResults .= "<li>" . $poi->title . "<br><img src='".$poi->photoUrl."'></li>";
+        $javaScriptMarkers .="L.marker([".$poi->lat.", ".$poi->lon."],{color: 'red'}).addTo(mymap);\n";
     }
 
     $formattedResults .= "</ul>";
@@ -63,6 +85,7 @@ if (count($_POST) > 0) {
 
 //output the template
 $file = str_replace('{results}', $formattedResults, $file);
+$file = str_replace('{markers}', $javaScriptMarkers, $file);
 
 echo $file;
 
