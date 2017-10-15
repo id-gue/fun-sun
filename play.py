@@ -27,7 +27,6 @@ def getGeodata(user_longitude,user_latitude,radius):
     return data['points_of_interest']
 
 
-
 def getWeatherDataForOneLocation(poi_latitude,poi_longitude):     
 
     weather_value_list = []
@@ -78,6 +77,7 @@ unfiltered_geodata = getWeatherData(unfiltered_geodata)
 
 all_weather_values = 0
 
+
 # give back the pois with good weather
 def filterGeodata(unfiltered_geodata): 
 
@@ -91,12 +91,11 @@ def filterGeodata(unfiltered_geodata):
         total = total + (int(i['weather_average']))
         count += 1
     all_weather_values = (total / count)
-    print(all_weather_values)
     filtered_geodata = []
 
     # add POIs with weather better than average to filtered_geodata
     for poi in list:
-        if poi['weather_average'] < all_weather_values:
+        if poi['weather_average'] <= all_weather_values:
             filtered_geodata.append(poi)
 
     print(json.dumps(filtered_geodata))
