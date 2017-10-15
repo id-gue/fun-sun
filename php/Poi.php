@@ -13,4 +13,5 @@ class Poi
    public $lon;
    public $desc;
    public $weatherRank;
+   public $photoUrl;
 }
