@@ -1,0 +1,1 @@
+C:\Users\janss\AppData\Local\Programs\Python\Python36\python playcmd.py --lat 13 --lon 3 --distance 5.7
