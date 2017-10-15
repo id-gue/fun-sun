@@ -50,7 +50,7 @@
         mymap.on('locationfound', onLocationFound);
         mymap.on('locationerror', onLocationError);
 
-        mymap.locate({setView: true, maxZoom: 16});
+        mymap.locate({setView: true, maxZoom: 13});
     }
 </script>
 
@@ -75,6 +75,8 @@
 </form>
 
 <div id="mapid" style="height: 700px; width:100%; margin-top: 10px"></div>
+
+    {list}
 
 </div>
 </body>
