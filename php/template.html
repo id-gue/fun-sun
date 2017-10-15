@@ -6,7 +6,6 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
           integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
           crossorigin=""/>
-    <title>Take me to the sun</title>
 </head>
 <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
         integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
@@ -51,9 +50,11 @@
 </script>
 
 </head>
+
 <body onLoad="javascript:init();">
 
-<h1>Take me to the sun!</h1>
+<div style="width:100%; text-align:center;">
+<h1 class="heading">Take me to the sun</h1>
 
 {results}
 
@@ -61,15 +62,15 @@
     <input type="hidden" name="lat" id="lat" value="-1">
     <input type="hidden" name="lon" id="lon" value="-1">
 
-    <h2>Show me nice places:</h2>
+    <h2 class="motto">Show me nice places:</h2>
 
     <input type="submit" name="distance1" class="searchbutton" value="up to 100km">
     <input type="submit" name="distance2" class="searchbutton" value="up to 300km">
 
 </form>
 
-<div id="mapid" style="height: 500px;width:500px;"></div>
+<div id="mapid" style="height: 500px; width:100%; margin-top: 10px"></div>
 
-
+</div>
 </body>
 </html>

@@ -1,14 +1,44 @@
 body {
-margin: 20px;
+margin: auto;
 }
 
 h1
 {
-    color:blue;
+    color:green;
 }
 
-.searchbutton{
-    margin:20px;
-    padding:10px;
-    background-color: antiquewhite;
+.title{
+  font-family: Arial;
+  color: gray;
+  font-size: 10px;
+}
+
+.heading{
+	color: #c4776e;
+	font-size: 20px;
+	font-family: Helvetica;
+
+}
+.motto{
+	color: #a96479;
+	font-family: Helvetica;
+	font-size: 15px;
+}
+
+.searchbutton {
+  -webkit-border-radius: 5;
+  -moz-border-radius: 5;
+  border-radius: 5px;
+  font-family: Arial;
+  color: #5a6069;
+  font-size: 12px;
+  font-weight: bold;
+  background: #bfddde;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+}
+
+.searchbutton:hover {
+  background: #f0e8e1;
+  text-decoration: none;
 }
