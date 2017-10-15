@@ -42,3 +42,14 @@ h1
   background: #f0e8e1;
   text-decoration: none;
 }
+
+.imageunderline
+{
+    background-color: black;
+    color:white;
+    opacity: 0.6;
+    margin-top: -25px;
+    height:20px;
+    text-align: center;
+    padding-top: 2px;
+}
