@@ -1,4 +1,5 @@
 import urllib.request, json, argparse
+from key import amadeus_api_key, openweathermap_api_key
 
 # get user position from command line
 # play.py --lon 10.3 --lat 56.3 --distance 10
@@ -12,9 +13,6 @@ args = parser.parse_args()
 user_latitude = args.lat
 user_longitude = args.lon
 radius = args.distance
-
-# points of interest by amadeus api
-amadeus_api_key = 'M3GYwKZeUTNSFqhAK6Oojp3PO89080iF'
 
 
 def getGeodata(user_longitude,user_latitude,radius):
@@ -31,8 +29,6 @@ def getGeodata(user_longitude,user_latitude,radius):
 
 
 def getWeatherDataForOneLocation(poi_latitude,poi_longitude):     
-    # weather data for the poi
-    openweathermap_api_key = '3a1deb09f4243599aab7a97c86dd6749'
 
     weather_value_list = []
     
@@ -64,6 +60,7 @@ def getWeatherDataForOneLocation(poi_latitude,poi_longitude):
     return weather_value_average
 
 
+# add weather_average to geodata
 def getWeatherData(geodata):
   
     #data_with_weather_list = []
@@ -75,19 +72,58 @@ def getWeatherData(geodata):
     return geodata
 
 
-
-
-def filterData(unfiltered_geodata):
-    filtered_geodata = sorted(unfiltered_geodata[weather_average], reverse=True)[:5]
-
-    return(filtered_geodata)
-
-
+# all data together
 unfiltered_geodata = getGeodata(user_longitude,user_latitude,radius)
 unfiltered_geodata = getWeatherData(unfiltered_geodata)
-filtered_geodata = filterData(unfiltered_geodata)
 
-print(filtered_geodata)
+# filtering all objects for good weather_average
+# def filterData(unfiltered_geodata):
+
+# sort geo data
+def sortGeodata(unfiltered_geodata): 
+
+    all_weather_values = []
+    list = unfiltered_geodata
+
+    average = 0
+    count = 0
+
+    for i in list:
+        #all_weather_values.append(int(i))
+        average = average + (int(i['weather_average']))
+        count += 1
+
+    print(average / count)
+
+
+sortGeodata(unfiltered_geodata)
+
+"""
+    # calculate weather average
+    weather_value_average = round(sum(weather_value_list) / float(len(weather_value_list)))
+
+
+
+
+    filtered_geodata = []
+
+    for obj in unfiltered_geodata:
+        
+
+        # give back POIs where weather is better than average
+
+
+    all_weather_average = unfiltered_geodata['weather_average'] 
+
+    filtered_geodata = [unfiltered_geodata for unfiltered_geodata in dict if(
+    unfiltered_geodata['type'] > -10
+    )] 
+
+    # filtered_geodata = sorted(unfiltered_geodata, reverse=True)[:5]
+    # return filtered_geodata
+"""
+
+# print(json.dumps(filtered_geodata))
 
 
 
